@@ -19,9 +19,12 @@ class TodoItem(BaseModel):
 todos = []
 current_id = 1
 
-@app.get("/")
-def read_root():
-    return {"message": "Welcome to TODO API"}
+@app.get("/", response_class=HTMLResponse)
+async def root():
+    return """
+    <h1>Welcome to the Todo API</h1>
+    <p>Use the <a href="/docs">Swagger Docs</a> to try it out.</p>
+    """
 
 @app.get("/todos", response_model=List[TodoItem])
 def get_todos():
