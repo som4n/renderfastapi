@@ -1,3 +1,38 @@
+# 📝 FastAPI Todo API (Deployed on Render)
+
+A simple and clean **Todo API** built using [FastAPI](https://fastapi.tiangolo.com/) and deployed on [Render](https://render.com/). It offers basic CRUD operations to manage todo items.
+
+🔗 **Live Demo**: [https://renderfastapi.onrender.com](https://renderfastapi.onrender.com)  
+📘 **Swagger Docs**: [https://renderfastapi.onrender.com/docs](https://renderfastapi.onrender.com/docs)
+
+---
+
+## 🚀 Features
+
+- Create todo items
+- Read all or specific todos
+- Update todo items
+- Delete todo items
+- Interactive Swagger UI for testing
+
+---
+
+## 📂 Project Structure
+renderfastapi/
+├── main.py # Main FastAPI app with endpoints
+├── models.py # Pydantic models
+├── database.py # In-memory or persistent DB logic
+└── requirements.txt
+
+## 🛠️ Tech Stack
+
+- **FastAPI** – High performance web framework
+- **Uvicorn** – Lightning-fast ASGI server
+- **Pydantic** – Data validation
+
+---
+
+
 # Deploy FastAPI on Render
 
 Use this repo as a template to deploy a Python [FastAPI](https://fastapi.tiangolo.com) service on Render.
