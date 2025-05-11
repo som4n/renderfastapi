@@ -2,7 +2,7 @@
 
 A simple and clean **Todo API** built using [FastAPI](https://fastapi.tiangolo.com/) and deployed on [Render](https://render.com/). It offers basic CRUD operations to manage todo items.
 
-🔗 **Live Demo**: [https://renderfastapi.onrender.com](https://renderfastapi.onrender.com)  
+🔗 **Live Demo**: [https://renderfastapi-saxg.onrender.com](https://renderfastapi.onrender.com)  
 📘 **Swagger Docs**: [https://renderfastapi.onrender.com/docs](https://renderfastapi.onrender.com/docs)
 
 ---
