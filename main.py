@@ -3,6 +3,7 @@ from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import List, Optional
 from datetime import datetime, timedelta
+from pydantic import BaseModel  # Add this import
 from auth import (
     User, Token, authenticate_user, create_access_token,
     get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES, users_db
