@@ -3,12 +3,17 @@ from fastapi.responses import HTMLResponse
 from fastapi.security import OAuth2PasswordRequestForm
 from typing import List, Optional
 from datetime import datetime, timedelta
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 from auth import (
     User, Token, authenticate_user, create_access_token,
     get_current_user, ACCESS_TOKEN_EXPIRE_MINUTES, users_db,
     get_password_hash  # Add this import
 )
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Todo API",
@@ -44,6 +49,7 @@ class TodoItem(BaseModel):
     description: str
     completed: bool = False
     created_at: datetime = datetime.now()
+    owner_id: str  # Add this field to track todo ownership
 
 
 # In-memory storage for todos 
@@ -96,8 +102,13 @@ def delete_todo(todo_id: int):
 
 
 # User registration
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
 @app.post("/register", response_model=User, tags=["auth"])
-async def register(username: str, password: str, email: Optional[str] = None):
+@limiter.limit("5/minute")
+async def register(request: Request, username: str, password: str, email: Optional[str] = None):
     """Register a new user.
     
     - **username**: Unique username
@@ -157,4 +168,39 @@ def create_todo(todo: TodoItem, current_user: User = Depends(get_current_user)):
     todo.id = len(todos) + 1
     todos.append(todo)
     return todo
+
+@app.get("/todos/search", response_model=List[TodoItem], tags=["todos"])
+def search_todos(
+    query: str,
+    completed: Optional[bool] = None,
+    current_user: User = Depends(get_current_user)
+):
+    """Search todos by title or description."""
+    user_todos = [todo for todo in todos if todo.owner_id == current_user.username]
+    if completed is not None:
+        user_todos = [todo for todo in user_todos if todo.completed == completed]
+    if query:
+        user_todos = [
+            todo for todo in user_todos
+            if query.lower() in todo.title.lower() or query.lower() in todo.description.lower()
+        ]
+    return user_todos
+
+
+@app.exception_handler(HTTPException)
+async def http_exception_handler(request, exc):
+    return JSONResponse(
+        status_code=exc.status_code,
+        content={"detail": exc.detail},
+    )
+
+
+# Add after app initialization
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  # Modify this in production
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
     
