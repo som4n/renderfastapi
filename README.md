@@ -1,21 +1,33 @@
-# 📝 FastAPI Todo API (Deployed on Render)
+# 📝 FastAPI Todo API with Authentication
 
-A simple and clean **Todo API** built using [FastAPI](https://fastapi.tiangolo.com/) and deployed on [Render](https://render.com/). It offers basic CRUD operations to manage todo items.
+A secure and feature-rich **Todo API** built using [FastAPI](https://fastapi.tiangolo.com/) and deployed on [Render](https://render.com/). This API provides CRUD operations for todo items with user authentication and detailed documentation.
 
 🔗 **Live Demo**: [https://renderfastapi-saxg.onrender.com](https://renderfastapi-saxg.onrender.com)  
-📘 **Swagger Docs**: [https://renderfastapi-saxg.onrender.com/docs](https://renderfastapi-saxg.onrender.com/docs)
-
----
+📘 **Swagger Docs**: [https://renderfastapi-saxg.onrender.com/docs](https://renderfastapi-saxg.onrender.com/docs)  
+📖 **ReDoc**: [https://renderfastapi-saxg.onrender.com/redoc](https://renderfastapi-saxg.onrender.com/redoc)
 
 ## 🚀 Features
 
-- Create todo items
-- Read all or specific todos
-- Update todo items
-- Delete todo items
-- Interactive Swagger UI for testing
+### Core Features
+- User registration and authentication
+- JWT token-based security
+- CRUD operations for todo items
+- Per-user todo management
+- Input validation
+- Interactive API documentation
 
----
+### API Endpoints
+
+#### Authentication
+- `POST /register` - Register a new user
+- `POST /token` - Get access token
+
+#### Todo Operations
+- `GET /todos` - List all todos (authenticated)
+- `GET /todos/{todo_id}` - Get specific todo
+- `POST /todos` - Create new todo
+- `PUT /todos/{todo_id}` - Update todo
+- `DELETE /todos/{todo_id}` - Delete todo
 
 ## 📂 Project Structure
 renderfastapi/
@@ -26,9 +38,12 @@ renderfastapi/
 
 ## 🛠️ Tech Stack
 
-- **FastAPI** – High performance web framework
-- **Uvicorn** – Lightning-fast ASGI server
-- **Pydantic** – Data validation
+- **FastAPI** (v0.109.0+) - Modern web framework
+- **Uvicorn** (v0.27.0+) - ASGI server
+- **Pydantic** (v2.0.0+) - Data validation
+- **Python-Jose** - JWT token handling
+- **Passlib** - Password hashing
+- **Python-Multipart** - Form data parsing
 
 ---
 
@@ -39,24 +54,23 @@ Use this repo as a template to deploy a Python [FastAPI](https://fastapi.tiangol
 
 See https://render.com/docs/deploy-fastapi or follow the steps below:
 
-## Manual Steps
+## 📦 Deployment
+This project is configured for deployment on Render. The deployment process is automated using the render.yaml configuration file.
 
-1. You may use this repository directly or [create your own repository from this template](https://github.com/render-examples/fastapi/generate) if you'd like to customize the code.
-2. Create a new Web Service on Render.
-3. Specify the URL to your new repository or this repository.
-4. Render will automatically detect that you are deploying a Python service and use `pip` to download the dependencies.
-5. Specify the following as the Start Command.
-
-    ```shell
-    uvicorn main:app --host 0.0.0.0 --port $PORT
-    ```
-
-6. Click Create Web Service.
-
-Or simply click:
-
-[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/render-examples/fastapi)
-
-## Thanks
-
-Thanks to [Harish](https://harishgarg.com) for the [inspiration to create a FastAPI quickstart for Render](https://twitter.com/harishkgarg/status/1435084018677010434) and for some sample code!
+### Manual Deployment Steps
+1. Fork this repository
+2. Create a new Web Service on Render
+3. Connect your repository
+4. Render will automatically:
+   - Detect Python
+   - Install dependencies
+   - Start the service using uvicorn main:app --host 0.0.0.0 --port $PORT
+## 📚 API Documentation
+- Swagger UI : Visit /docs for interactive API documentation
+- ReDoc : Visit /redoc for alternative documentation view
+## 🤝 Contributing
+1. Fork the repository
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a Pull Request
